@@ -2,6 +2,29 @@ version: '3.9'
 
 services:
 
+  creation:
+    build:
+      context: ./creation
+      args:
+        - ARG_SERVER_PORT=${CREATION_APP_SERVER_PORT}
+        - ARG_JAR_NAME=${CREATION_ARG_JAR_NAME}
+    image: project_management_creation
+    container_name: project_management_creation
+    restart: on-failure
+    #ports:
+    #  - 8081:8080
+    environment:
+      - APP_SERVER_PORT=${CREATION_APP_SERVER_PORT}
+      - APP_SPRING_ACTIVE_PROFILE=${CREATION_APP_SPRING_ACTIVE_PROFILE}
+      - APP_KEYCLOACK_REALM=${CREATION_APP_KEYCLOACK_REALM}
+      - APP_KEYCLOACK_RESOURCE=${CREATION_APP_KEYCLOACK_RESOURCE}
+      - APP_KEYCLOACK_AUTH_SERVER_URL=${CREATION_APP_KEYCLOACK_AUTH_SERVER_URL}
+      - APP_KEYCLOACK_PUBLIC_CLIENT=${CREATION_APP_KEYCLOACK_PUBLIC_CLIENT}
+      - APP_KEYCLOACK_BEARER_ONLY=${CREATION_APP_KEYCLOACK_BEARER_ONLY}
+      - APP_KEYCLOACK_CREDENTIALS_SECRET==${CREATION_APP_KEYCLOACK_BEARER_ONLY}
+    networks:
+      - net-project-management
+
   gateway:
     build:
       context: ./gateway
@@ -15,8 +38,13 @@ services:
       - 8080:8080
     environment:
       - APP_SERVER_PORT=${GATEWAY_APP_SERVER_PORT}
+      - APP_URL_MANAGER_CREATION=${GATEWAY_APP_URL_MANAGER_CREATION}
     networks:
       - net-project-management
+    depends_on:
+      - creation
+
+
 
 
 

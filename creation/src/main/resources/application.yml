@@ -1,0 +1,39 @@
+server:
+    port: ${APP_SERVER_PORT:8081}
+
+
+spring:
+    profiles:
+        active: ${APP_SPRING_ACTIVE_PROFILE:dev}
+    datasource:
+        url: ${DB_URL:jdbc:mysql://localhost:3306/project-management-creation}
+        username: ${DB_USER:project-management-creation}
+        password: ${DB_PASWORD:123456789}
+        driver-class-name: com.mysql.jdbc.Driver
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        show-sql: true
+        hibernate:
+            #ddl-auto: none
+            #ddl-auto: create
+            #ddl-auto: create-drop
+            #ddl-auto: valid
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+    data:
+        mongodb:
+            database: ${DB_MONGO_DATABASE:project-management-data-user-mongodb}
+            uri: mongodb://root:123456789@localhost:27017
+
+
+keycloak:
+    realm: ${APP_KEYCLOACK_REALM:project-management}
+    resource: ${APP_KEYCLOACK_RESOURCE:project-management-creation}
+    auth-server-url: ${APP_KEYCLOACK_AUTH_SERVER_URL:http://localhost:8099/auth}
+    public-client: ${APP_KEYCLOACK_PUBLIC_CLIENT:false}
+    bearer-only: ${APP_KEYCLOACK_BEARER_ONLY:true}
+    credentials:
+        secret: ${APP_KEYCLOACK_CREDENTIALS_SECRET:asasasas}
+
