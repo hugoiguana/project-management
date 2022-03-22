@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+
+  gateway:
+    build:
+      context: ./gateway
+      args:
+        - ARG_SERVER_PORT=${GATEWAY_APP_SERVER_PORT}
+        - ARG_JAR_NAME=${GATEWAY_ARG_JAR_NAME}
+    image: project_management_gateway
+    container_name: project_management_gateway
+    restart: on-failure
+    ports:
+      - 8080:8080
+    environment:
+      - APP_SERVER_PORT=${GATEWAY_APP_SERVER_PORT}
+    networks:
+      - net-project-management
+
+
+
+networks:
+  net-project-management:
+      driver: bridge
+      name: net-project-management

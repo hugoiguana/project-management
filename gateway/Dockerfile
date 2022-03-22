@@ -1,0 +1,15 @@
+FROM openjdk:17-alpine
+
+ARG ARG_SERVER_PORT=8080
+ARG ARG_JAR_NAME=gateway-0.0.1-SNAPSHOT.jar
+
+ENV ENV_SERVER_PORT=$ARG_SERVER_PORT
+ENV ENV_JAR_NAME=$ARG_JAR_NAME
+
+WORKDIR /app
+COPY . .
+
+RUN ./mvnw clean package -Dmaven.test.skip=true
+
+EXPOSE $ENV_SERVER_PORT
+ENTRYPOINT java -jar target/$ENV_JAR_NAME
